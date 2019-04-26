@@ -4,6 +4,13 @@
     </default>
     <customer_account_create>
         <reference name="head">
+            <block type="core/text" name="google.cdn.jquery">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>]]>
+                    </text>
+                </action>
+            </block>
             <action method="addJs"><script>zerobounce/zerobounce.js</script></action>
         </reference>
     </customer_account_create>
