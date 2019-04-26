@@ -1,0 +1,22 @@
+<script type="text/javascript">
+
+    jQuery('.buttons-set .button ').click(function(event) {
+        event.preventDefault();
+        let email = jQuery('#email_address').val();
+        jQuery.ajax({
+            url: '<?php echo $this->getUrl('zerobounce/index/index') ?>',
+            data: {email: email, isAjax: true},
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            cache: false,
+            success: function (data) {
+                if(data.status == 'valid'){
+                    dataForm.submit()
+                }else{
+                    alert('Your email address appears to be invalid, please enter another email or contact us for assistance.');
+                }
+            },
+        });
+    });
+</script>

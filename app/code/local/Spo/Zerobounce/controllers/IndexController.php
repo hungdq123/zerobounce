@@ -9,26 +9,23 @@ class Spo_Zerobounce_IndexController extends Mage_Core_Controller_Front_Action
 
     private function api_call($method, array $params)
     {
-        $params['api_key'] = $this->key;
-        $paramsURI = http_build_query($params);
-        $url = "{$this->baseURL}{$method}?{$paramsURI}";
-        if (!isset($this->ch)) {
-            $ch = $this->ch = curl_init();
-            curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-            curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 15);
-            curl_setopt($this->ch, CURLOPT_TIMEOUT, 150);
-        }
-        curl_setopt($this->ch, CURLOPT_URL, $url);
-        $response = curl_exec($this->ch);
+        $store = Mage::app()->getStore();
+        $key = Mage::getStoreConfig('spo_zerobounce/general/zerobounce_api', $store);
+
+        $url = 'https://api.zerobounce.net/v2/validate?api_key='.$key.'&email=' . urlencode($params['email']) . '&ip_address=' . urlencode($params['ip_address']);
+
+        //PHP 5.5.19 and higher has support for TLS 1.2
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 150);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        //decode the json response
         $responseJSON = json_decode($response, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Invalid Response", 1);
-        }
-        if (isset($response['error'])) {
-            throw new \Exception($response['error'], 2);
-        }
-        return $responseJSON;
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseJSON));
     }
 
     public function validate($email, $ip)
@@ -38,7 +35,7 @@ class Spo_Zerobounce_IndexController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        $email = $_POST["value"];
+        $email = $this->getRequest()->getParam('email');
         $ip = $_SERVER['REMOTE_ADDR'];
         return ($this->validate($email, $ip));
     }
