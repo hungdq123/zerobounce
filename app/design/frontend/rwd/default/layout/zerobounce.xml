@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <customer_account_create>
+        <reference name="head">
+            <action method="addJs"><script>zerobounce/zerobounce.js</script></action>
+        </reference>
+    </customer_account_create>
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Spo_Zerobounce>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Spo_Zerobounce>
+    </modules>
+</config> 
