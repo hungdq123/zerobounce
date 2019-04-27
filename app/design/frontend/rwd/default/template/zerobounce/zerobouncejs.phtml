@@ -10,11 +10,14 @@
             {email: email, isAjax: true},
             function (data) {
                 data = jQuery.parseJSON(data);
+                if (jQuery('.validation-advice').remove()) {
+                    jQuery('.validation-advice').remove();
+                }
                 if (data.status == 'invalid') {
-                    if (jQuery('.validation-advice').remove()) {
-                        jQuery('.validation-advice').remove();
-                    }
                     jQuery('#email_address').after('<div class="validation-advice" id="email-error">' + data.message + '</div>');
+                    jQuery('.buttons-set .button').attr("disabled", "disabled");
+                }else{
+                    jQuery('.buttons-set .button').removeAttr("disabled");
                 }
             }
         )
