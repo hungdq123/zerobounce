@@ -11,7 +11,6 @@
                     </text>
                 </action>
             </block>
-            <action method="addJs"><script>zerobounce/zerobounce.js</script></action>
         </reference>
         <reference name="before_body_end">
             <block type="core/template" name="zerobounce" template="zerobounce/zerobouncejs.phtml" />
