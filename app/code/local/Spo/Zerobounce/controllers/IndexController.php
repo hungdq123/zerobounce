@@ -2,8 +2,7 @@
 
 class Spo_Zerobounce_IndexController extends Mage_Core_Controller_Front_Action
 {
-
-    private $key = 'ade4b17b1d564f6b846ceb63a4fd675e';
+    
     private $baseURL = "https://api.zerobounce.net/v2/";
 
 
